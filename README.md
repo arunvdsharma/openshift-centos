@@ -1,11 +1,38 @@
 # Install Openshift 3.11 on CentOS
-#For details refer https://github.com/openshift/origin/tree/v3.6.0/examples/wordpress 
+Provision 'n' number of nodes. In this example, I created 3 CentOS nodes on AWS. You need to make necessary changes to be able to login on CentOS with 'root' user account. 
+
+<B>Note: This is not recommended in production environment </b>
+
+Enable root acccess in /etc/ssh/sshd_config file. Uncomment below setting in the file.
+```
+	#PermitRootLogin yes
+	sudo vi /etc/ssh/sshd_config
+```
+
+- Restart sshd service.
+	sudo systemctl restart sshd
+	sudo -s
+	cp -r /home/centos/.ssh/authorized_keys /root/.ssh/authorized_keys
+	
+- Swith to root user with "sudo -s" command
+- Copy authorization_key of centos user to root's user.
+	$ cp /home/centos/.ssh/authorized_keys /root/.ssh/authorized_keys
+- Now you can login with root user.
+- Once logged on terminal, run install-tools.sh file. In case there is error related to bad characters or similar, run below command before running the script. Don't forget to give executable permission first, if it's already not given.
+	chmod +x install install-tools.sh
+	sed -i -e 's/\r$//' install-tools.sh
+- Now copy install-tools.sh from one master node to another one.
+	scp -i Openshift-keypair.pem install-tools.sh  centos@172.31.17.55:~/
 
 
-# Openshift 3.11 Installation on CentOS
-This guide explains the steps about how are we going to install Openshift. we are going to install Openshift cluster
+```
+$ ./install-tools.sh
+```
 
-# install-tools.sh
+```
+$ ./install-openshift.sh
+```
+
 This script file installs all the pre-requisites required to setup Openshift 3.11 on CentOS. Ensure that you are logged in with root user.
 
 # Basic Commands
@@ -52,24 +79,7 @@ cd
 Master node steps
 =====================
 - Install nano editor
-- Enable root acccess in /etc/ssh/sshd_config file. Uncomment below setting.
-	#PermitRootLogin yes
-	sudo vi /etc/ssh/sshd_config
-	
-- Restart sshd service.
-	sudo systemctl restart sshd
-	sudo -s
-	cp -r /home/centos/.ssh/authorized_keys /root/.ssh/authorized_keys
-	
-- Swith to root user with "sudo -s" command
-- Copy authorization_key of centos user to root's user.
-	$ cp /home/centos/.ssh/authorized_keys /root/.ssh/authorized_keys
-- Now you can login with root user.
-- Once logged on terminal, run install-tools.sh file. In case there is error related to bad characters or similar, run below command before running the script. Don't forget to give executable permission first, if it's already not given.
-	chmod +x install install-tools.sh
-	sed -i -e 's/\r$//' install-tools.sh
-- Now copy install-tools.sh from one master node to another one.
-	scp -i Openshift-keypair.pem install-tools.sh  centos@172.31.17.55:~/
+
 
 
 
@@ -137,3 +147,5 @@ pv0002    <none>    5368709120   RWO           Available
 ```
 
 Now the volumes are ready to be used by applications in the cluster.
+
+#Reference: https://github.com/openshift/origin/tree/v3.6.0/examples/wordpress 
