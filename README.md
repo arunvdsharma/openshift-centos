@@ -1,10 +1,82 @@
-# openshift-centos
+# Install Openshift 3.11 on CentOS
 #For details refer https://github.com/openshift/origin/tree/v3.6.0/examples/wordpress 
 
 
 # Openshift 3.11 Installation on CentOS
-
 This guide explains the steps about how are we going to install Openshift. we are going to install Openshift cluster
+
+# install-tools.sh
+This script file installs all the pre-requisites required to setup Openshift 3.11 on CentOS. Ensure that you are logged in with root user.
+
+# Basic Commands
+To ssh from one node to another using AWS .pem file
+```
+  scp -i keypair.pem install-tools.sh  centos@172.31.30.195:~/
+
+```
+sudo -s
+mv install-tools.sh ~/
+cd
+./install-tools.sh
+
+
+172.31.28.144
+ssh -i Openshift-keypair.pem centos@172.31.28.144
+scp -i Openshift-keypair.pem install-tools.sh  root@172.31.28.144:~/
+sudo -s
+mv install-tools.sh ~/
+cd
+./install-tools.sh
+
+
+172.31.29.41
+
+scp -i Openshift-keypair.pem install-tools.sh  centos@172.31.29.41:~/
+ssh -i Openshift-keypair.pem centos@172.31.29.41
+sudo -s
+mv install-tools.sh ~/
+cd
+./install-tools.sh
+
+172.31.25.239
+
+scp -i Openshift-keypair.pem install-tools.sh  centos@172.31.25.239:~/
+ssh -i Openshift-keypair.pem centos@172.31.25.239
+sudo -s
+mv install-tools.sh ~/
+cd
+./install-tools.sh
+
+
+
+Master node steps
+=====================
+- Install nano editor
+- Enable root acccess in /etc/ssh/sshd_config file. Uncomment below setting.
+	#PermitRootLogin yes
+	sudo vi /etc/ssh/sshd_config
+	
+- Restart sshd service.
+	sudo systemctl restart sshd
+	sudo -s
+	cp -r /home/centos/.ssh/authorized_keys /root/.ssh/authorized_keys
+	
+- Swith to root user with "sudo -s" command
+- Copy authorization_key of centos user to root's user.
+	$ cp /home/centos/.ssh/authorized_keys /root/.ssh/authorized_keys
+- Now you can login with root user.
+- Once logged on terminal, run install-tools.sh file. In case there is error related to bad characters or similar, run below command before running the script. Don't forget to give executable permission first, if it's already not given.
+	chmod +x install install-tools.sh
+	sed -i -e 's/\r$//' install-tools.sh
+- Now copy install-tools.sh from one master node to another one.
+	scp -i Openshift-keypair.pem install-tools.sh  centos@172.31.17.55:~/
+
+
+
+
+
+
+
 
 # How To Use NFS Persistent Volumes
 
