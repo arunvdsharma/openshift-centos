@@ -6,7 +6,7 @@ Provision 'n' number of nodes. In this example, I created 3 CentOS nodes on AWS.
 Enable root acccess in /etc/ssh/sshd_config file. Uncomment below setting in the file. Login with *centos* user and run these commands.
 ```
 $ sudo vi /etc/ssh/sshd_config
-	PermitRootLogin yes    	#Uncomment this line in /etc/ssh/sshd_config and save it.
+PermitRootLogin yes    	#Uncomment this line in /etc/ssh/sshd_config and save it.
 	 
 $ sudo systemctl restart sshd
 ```
@@ -76,4 +76,4 @@ $ chmod +x install-openshift.sh
 $ ./install-openshift.sh
 ```
 
-If all the ansible jobs are run successfully, you can access Openshift dashboard on https://console.<<your_domain_name>> 
+If all the ansible jobs are successful, you can access Openshift dashboard on https://console.your_domain_name
