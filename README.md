@@ -34,74 +34,48 @@ $ ./install-tools.sh
 $ sed -i -e 's/\r$//' install-tools.sh
 ```
 
-Don't forget to give executable permission first, if it's already not given.
+Don't forget to give executable permission first, if it's already not given. 
+*install-tools.sh* file installs all the pre-requisites required to setup Openshift 3.11 on CentOS. Ensure that you are logged in with root user.
 ```
 $ chmod +x install-tools.sh
+$ ./install-tools.sh
+```
+
+Copy *install-tools.sh* from one node to another one so you can run install pre-requisites on every nodes. Replace *host_ip* with you node's ip address or hostname.
+
+```
+#To ssh from one node to another using AWS .pem file
+$ scp -i keypair.pem install-tools.sh  root@host_ip:~/
+$ ssh -i Openshift-keypair.pem root@host_ip
+$ chmod +x install-tools.sh
+$ ./install-tools.sh
+```
+
+### Once all the tools are installed, you need open some of the ports on AWS network. These ports are required Openshift cluster to communicate with each node.
+
+22 			TCP 
+53 or 8053		TCP/UDP
+80 or 443		TCP
+1936			TCP
+4001			TCP
+2379 and 2380		TCP
+4789			UDP
+8443			TCP
+10250			TCP
+
+To get more details understanding on ports for Openshift, refer this link https://docs.openshift.com/container-platform/3.11/install/prerequisites.html
+
+### Now you are all set to install Openshift. Run the following commands on master node:
+```
+$ chmod +x install-openshift.sh
 $ ./install-openshift.sh
 ```
-
-You can also copy *install-tools.sh* from one node to another one.
-```
-scp -i keypair.pem install-tools.sh  root@ip_host:~/
-```
-
-This script file installs all the pre-requisites required to setup Openshift 3.11 on CentOS. Ensure that you are logged in with root user.
-
-# Basic Commands
-To ssh from one node to another using AWS .pem file
-```
-  scp -i keypair.pem install-tools.sh  centos@172.31.30.195:~/
-
-```
-sudo -s
-mv install-tools.sh ~/
-cd
-./install-tools.sh
-
-
-172.31.28.144
-ssh -i Openshift-keypair.pem centos@172.31.28.144
-scp -i Openshift-keypair.pem install-tools.sh  root@172.31.28.144:~/
-sudo -s
-mv install-tools.sh ~/
-cd
-./install-tools.sh
-
-
-172.31.29.41
-
-scp -i Openshift-keypair.pem install-tools.sh  centos@172.31.29.41:~/
-ssh -i Openshift-keypair.pem centos@172.31.29.41
-sudo -s
-mv install-tools.sh ~/
-cd
-./install-tools.sh
-
-172.31.25.239
-
-scp -i Openshift-keypair.pem install-tools.sh  centos@172.31.25.239:~/
-ssh -i Openshift-keypair.pem centos@172.31.25.239
-sudo -s
-mv install-tools.sh ~/
-cd
-./install-tools.sh
-
-
-
-Master node steps
-=====================
-- Install nano editor
-
-
-
-
 
 
 
 
 
 # How To Use NFS Persistent Volumes
-
 The purpose of this guide is to create Persistent Volumes with NFS. It is part of [OpenShift persistent storage guide](../README.md), which explains how to use these Persistent Volumes as data storage for applications.
 
 ## NFS Provisioning
