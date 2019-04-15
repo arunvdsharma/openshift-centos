@@ -1,6 +1,3 @@
-#For details refer https://github.com/openshift/origin/tree/v3.6.0/examples/wordpress 
-
-
 # Openshift 3.11 Installation on CentOS
 
 This guide explains the steps about how are we going to install Openshift. we are going to install Openshift cluster
@@ -64,3 +61,5 @@ pv0002    <none>    5368709120   RWO           Available
 ```
 
 Now the volumes are ready to be used by applications in the cluster.
+
+#Refer https://github.com/openshift/origin/tree/v3.6.0/examples/wordpress 
