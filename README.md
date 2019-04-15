@@ -1,19 +1,24 @@
 # Install Openshift 3.11 on CentOS
 Provision 'n' number of nodes. In this example, I created 3 CentOS nodes on AWS. You need to make necessary changes to be able to login on CentOS with 'root' user account. 
 
-<B>Note: This is not recommended in production environment </b>
+**Note: This is not recommended in production environment
 
-Enable root acccess in /etc/ssh/sshd_config file. Uncomment below setting in the file.
+#### Enable root acccess in /etc/ssh/sshd_config file. Uncomment below setting in the file.
+##### Login with *centos* user and run these commands.
 ```
-	#PermitRootLogin yes
-	sudo vi /etc/ssh/sshd_config
+	$ sudo vi /etc/ssh/sshd_config
+	#PermitRootLogin yes #Uncomment this line 
+	$ sudo systemctl restart sshd
 ```
 
-- Restart sshd service.
-	sudo systemctl restart sshd
+#### By default IAM doesn't allow to login with *root* user on EC2 instances but you can use the authroized_keys of *centos* user to access it.
+```
 	sudo -s
-	cp -r /home/centos/.ssh/authorized_keys /root/.ssh/authorized_keys
-	
+	cp /home/centos/.ssh/authorized_keys /root/.ssh/authorized_keys
+```
+
+Now you are ready to login with *root* user.
+
 - Swith to root user with "sudo -s" command
 - Copy authorization_key of centos user to root's user.
 	$ cp /home/centos/.ssh/authorized_keys /root/.ssh/authorized_keys
