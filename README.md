@@ -3,39 +3,46 @@ Provision 'n' number of nodes. In this example, I created 3 CentOS nodes on AWS.
 
 **Note: This is not recommended in production environment
 
-#### Enable root acccess in /etc/ssh/sshd_config file. Uncomment below setting in the file.
-##### Login with *centos* user and run these commands.
+Enable root acccess in /etc/ssh/sshd_config file. Uncomment below setting in the file. Login with *centos* user and run these commands.
 ```
-	$ sudo vi /etc/ssh/sshd_config
-	#PermitRootLogin yes #Uncomment this line 
-	$ sudo systemctl restart sshd
-```
-
-#### By default IAM doesn't allow to login with *root* user on EC2 instances but you can use the authroized_keys of *centos* user to access it.
-```
-	sudo -s
-	cp /home/centos/.ssh/authorized_keys /root/.ssh/authorized_keys
+$ sudo vi /etc/ssh/sshd_config
+	PermitRootLogin yes    	#Uncomment this line in /etc/ssh/sshd_config and save it.
+	 
+$ sudo systemctl restart sshd
 ```
 
-Now you are ready to login with *root* user.
+By default IAM doesn't allow to login with *root* user on EC2 instances but you can use the authroized_keys of *centos* user to access it.
 
-- Swith to root user with "sudo -s" command
-- Copy authorization_key of centos user to root's user.
-	$ cp /home/centos/.ssh/authorized_keys /root/.ssh/authorized_keys
-- Now you can login with root user.
-- Once logged on terminal, run install-tools.sh file. In case there is error related to bad characters or similar, run below command before running the script. Don't forget to give executable permission first, if it's already not given.
-	chmod +x install install-tools.sh
-	sed -i -e 's/\r$//' install-tools.sh
-- Now copy install-tools.sh from one master node to another one.
-	scp -i Openshift-keypair.pem install-tools.sh  centos@172.31.17.55:~/
+```
+$ sudo -s
+$ cp /home/centos/.ssh/authorized_keys /root/.ssh/authorized_keys
+```
 
+Now you are ready to login with *root* user with the same private keys which you have used for *centos* user.
+
+### Perform above steps on each nodes which you are planning to add in Openshit cluster.
+
+Once root user is accessible on nodes, run install-tools.sh file.
 
 ```
 $ ./install-tools.sh
 ```
 
+### Note: In case there is error related to bad characters or similar, run below command before running the script. If not, you can skip this step.
+
 ```
+$ sed -i -e 's/\r$//' install-tools.sh
+```
+
+Don't forget to give executable permission first, if it's already not given.
+```
+$ chmod +x install-tools.sh
 $ ./install-openshift.sh
+```
+
+You can also copy *install-tools.sh* from one node to another one.
+```
+scp -i keypair.pem install-tools.sh  root@ip_host:~/
 ```
 
 This script file installs all the pre-requisites required to setup Openshift 3.11 on CentOS. Ensure that you are logged in with root user.
