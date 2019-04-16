@@ -70,11 +70,12 @@ $ ssh -i Openshift-keypair.pem root@host_ip
 $ ./install-tools.sh
 ```
 
-There are multiple inventory files as **inventory-*.ini** files in the repository. You can choose one, customize it according to your needs and rename it with **inventory.ini**. The same inventory file will be used to install Openshift cluster.
 
 ## Update DOMAIN_NAME in the inventory file
 
 You may want to configure new **domain name**, you can replace it. In my case, domain name I used is **aruntechhub.xyz** which I have procured on a DNS provider. 
+
+#### There are multiple inventory files as **inventory-*.ini** files in the repository. You can choose one, customize it according to your needs and rename it with **inventory.ini**. The same inventory file will be used to install Openshift cluster.
 
 Replace your domain name with the following properties in inventory file
 ```
