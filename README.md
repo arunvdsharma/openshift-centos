@@ -18,7 +18,7 @@ To get more details understanding on ports for Openshift, refer this link https:
 # Install Openshift 3.11 on CentOS
 Provision 'n' number of nodes. In this example, I created 3 CentOS nodes on AWS. You need to make necessary changes to be able to login on CentOS with 'root' user account. 
 
-**Note: This is not recommended in production environment
+**Note: This is not recommended in production environment**
 
 Enable root acccess in /etc/ssh/sshd_config file. Uncomment below setting in the file. Login with *centos* user and run these commands.
 ```
@@ -46,7 +46,7 @@ $ git clone https://github.com/arunvdsharma/openshift-centos.git
 $ cd openshift-centos
 ```
 
-### Note: If there is error of "bad characters" while running any script command, execute sed command to remove bad characters, for example:
+**Note:** If there is error of "bad characters" while running any script command, execute sed command to remove bad characters, for example:
 
 ```
 $ sed -i -e 's/\r$//' install-tools.sh
