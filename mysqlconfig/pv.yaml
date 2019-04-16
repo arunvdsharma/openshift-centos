@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: PersistentVolume
 metadata:
-  name: pv0001
+  name: mysqlpv
 spec:
   capacity:
     storage: 5Gi
@@ -11,7 +11,7 @@ spec:
   persistentVolumeReclaimPolicy: Recycle
   nfs:
     server: ip-172-31-23-61.ap-south-1.compute.internal
-    path: /home/data/pv0001
+    path: /home/data/mysqlpv
 
 
 ---
@@ -19,7 +19,7 @@ spec:
 kind: PersistentVolumeClaim
 apiVersion: v1
 metadata:
-  name: claim-mysql
+  name: mysql-claim
 spec:
   accessModes:
     - ReadWriteOnce
