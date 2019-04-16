@@ -41,7 +41,7 @@ Now you are ready to login with *root* user with the same private keys which you
 # Install git and checkout arunvdsharma/openshift-centos project on the *Master* node
 
 ```
-$ yum install -y  wget git
+$ yum install -y git
 $ git clone https://github.com/arunvdsharma/openshift-centos.git
 $ cd openshift-centos
 ```
