@@ -91,4 +91,4 @@ $ chmod +x install-openshift.sh
 $ ./install-openshift.sh
 ```
 
-If all the ansible jobs are successful, you can access Openshift dashboard on https://console.your_domain_name
+If all the ansible jobs are successful, you can access Openshift dashboard on **https://console.your_domain_name**
