@@ -64,7 +64,7 @@ $ ./install-tools.sh
 Copy *install-tools.sh* from one node to another one so you can run install pre-requisites on every nodes. Replace *host_ip* with you node's ip address or hostname.
 
 ```
-#To ssh from one node to another using AWS .pem file
+#To ssh from one node to another using .pem file
 $ scp -i keypair.pem install-tools.sh  root@host_ip:~/
 $ ssh -i Openshift-keypair.pem root@host_ip
 $ ./install-tools.sh
@@ -74,11 +74,11 @@ There are multiple inventory files as **inventory-*.ini** files in the repositor
 
 ## Update DOMAIN_NAME in the inventory file
 
-You may want to configure new **domain name**, you can replace it. In my case, domain name I used is *aruntechhub.xyz* which I have procured on a DNS provider. 
+You may want to configure new **domain name**, you can replace it. In my case, domain name I used is **aruntechhub.xyz** which I have procured on a DNS provider. 
 
-Replace your domain name with the following properties
+Replace your domain name with the following properties in inventory file
 ```
-openshift_public_hostname=console.<b>aruntechhub.xyz<b>
+openshift_public_hostname=console.aruntechhub.xyz
 openshift_master_default_subdomain=apps.aruntechhub.xyz
 ```
 
