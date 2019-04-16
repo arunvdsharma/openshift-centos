@@ -21,6 +21,7 @@ Provision 'n' number of nodes. In this example, I created 3 CentOS nodes on AWS.
 **Note: This is not recommended in production environment**
 
 Enable root acccess in /etc/ssh/sshd_config file. Uncomment below setting in the file. Login with *centos* user and run these commands.
+
 ```
 $ sudo vi /etc/ssh/sshd_config
 PermitRootLogin yes    	#Uncomment this line in /etc/ssh/sshd_config and save it.
@@ -35,8 +36,7 @@ $ sudo -s
 $ cp /home/centos/.ssh/authorized_keys /root/.ssh/authorized_keys
 ```
 
-Now you are ready to login with *root* user with the same private keys which you have used for *centos* user.
-#### Enable root configuration on each node which will be part of Openshift Cluster.
+Now you are ready to login with *root* user with the same private keys which you have used for *centos* user. Similarly, enable root access on each node which will be part of Openshift Cluster.
 
 # Install git and checkout arunvdsharma/openshift-centos project on the *Master* node
 
