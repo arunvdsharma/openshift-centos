@@ -27,7 +27,6 @@ spec:
     spec:
       containers:
       - image: openshift/mysql-55-centos7
-#      - image: docker.io/centos/mysql-57-centos7
         name: mysql
         env:
           # Use secret in real usage
@@ -42,4 +41,4 @@ spec:
       volumes:
       - name: mysql-persistent-storage
         persistentVolumeClaim:
-          claimName: claim-mysql
+          claimName: mysql-claim
