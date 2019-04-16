@@ -1,4 +1,4 @@
-# MySQL container with NFS volumes deployment on Openshift
+# MySQL container deployment with NFS volumes on Openshift
 
 This guide will help you to deploy MySQL container with NFS volumes on Openshift 3.11. It's assumed that you have NFS installed on one of your node.
 
