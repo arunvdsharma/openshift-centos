@@ -1,3 +1,20 @@
+# Pre-requisites
+
+Open ports on the network which will be used to setup Openshift Cluster.
+```
+22 			TCP
+53 or 8053		TCP/UDP
+80 or 443		TCP
+1936			TCP
+4001			TCP
+2379 and 2380		TCP
+4789			UDP
+8443			TCP
+10250			TCP
+```
+To get more details understanding on ports for Openshift, refer this link https://docs.openshift.com/container-platform/3.11/install/prerequisites.html
+
+
 # Install Openshift 3.11 on CentOS
 Provision 'n' number of nodes. In this example, I created 3 CentOS nodes on AWS. You need to make necessary changes to be able to login on CentOS with 'root' user account. 
 
@@ -19,23 +36,26 @@ $ cp /home/centos/.ssh/authorized_keys /root/.ssh/authorized_keys
 ```
 
 Now you are ready to login with *root* user with the same private keys which you have used for *centos* user.
+#### Enable root configuration on each node which will be part of Openshift Cluster.
 
-### Perform above steps on each nodes which you are planning to add in Openshit cluster.
-
-Once root user is accessible on nodes, run install-tools.sh file.
+# Install git and checkout arunvdsharma/openshift-centos project on the *Master* node
 
 ```
-$ ./install-tools.sh
+$ yum install -y  wget git
+$ git clone https://github.com/arunvdsharma/openshift-centos.git
+$ cd openshift-centos
 ```
 
-### Note: In case there is error related to bad characters or similar, run below command before running the script. If not, you can skip this step.
+### Note: If there is error of "bad characters" while running any script command, execute sed command to remove bad characters, for example:
 
 ```
 $ sed -i -e 's/\r$//' install-tools.sh
 ```
 
+
 Don't forget to give executable permission first, if it's already not given. 
 *install-tools.sh* file installs all the pre-requisites required to setup Openshift 3.11 on CentOS. Ensure that you are logged in with root user.
+
 ```
 $ chmod +x install-tools.sh
 $ ./install-tools.sh
@@ -47,27 +67,20 @@ Copy *install-tools.sh* from one node to another one so you can run install pre-
 #To ssh from one node to another using AWS .pem file
 $ scp -i keypair.pem install-tools.sh  root@host_ip:~/
 $ ssh -i Openshift-keypair.pem root@host_ip
-$ chmod +x install-tools.sh
 $ ./install-tools.sh
 ```
 
-Once all the tools are installed, you need open some of the ports on AWS network. These ports are required Openshift cluster to communicate with each node.
-```
-22 			TCP
-53 or 8053		TCP/UDP
-80 or 443		TCP
-1936			TCP
-4001			TCP
-2379 and 2380		TCP
-4789			UDP
-8443			TCP
-10250			TCP
-```
-To get more details understanding on ports for Openshift, refer this link https://docs.openshift.com/container-platform/3.11/install/prerequisites.html
+There are multiple inventory files as **inventory-*.ini** files in the repository. You can choose one, customize it according to your needs and rename it with **inventory.ini**. The same inventory file will be used to install Openshift cluster.
 
-I have created multiple **inventory-*.ini** files in my git repository. You can choose one, customize it and rename it with **inventory.ini**. The same inventory file will be used to install Openshift cluster.
+## Update DOMAIN_NAME in the inventory file
 
-If you have different **domain name**, you can replace it. Make sure that your domain name is a valid domain which could be used to access Openshift Dashboard.
+You may want to configure new **domain name**, you can replace it. In my case, domain name I used is *aruntechhub.xyz* which I have procured on a DNS provider. 
+
+Replace your domain name with the following properties
+```
+openshift_public_hostname=console.<b>aruntechhub.xyz<b>
+openshift_master_default_subdomain=apps.aruntechhub.xyz
+```
 
 Once all the changes are done, you are all set to install Openshift. Run the following commands on master node:
 
