@@ -1,4 +1,4 @@
-# Pre-requisites
+# Ports required for Openshift Cluster
 
 Open ports on the network which will be used to setup Openshift Cluster.
 ```
