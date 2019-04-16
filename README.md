@@ -75,9 +75,10 @@ $ ./install-tools.sh
 
 You may want to configure new **domain name**, you can replace it. In my case, domain name I used is **aruntechhub.xyz** which I have procured on a DNS provider. 
 
-***** There are multiple inventory files in the repository. You can choose one, customize it according to your needs and rename it with **inventory.ini**. The same inventory file will be used to install Openshift cluster.
+*There are multiple inventory files in the repository. You can choose one, customize it according to your needs and rename it with* **inventory.ini**. *The same inventory file will be used to install Openshift cluster.*
 
-Replace your domain name with the following properties in inventory file
+Replace your domain name with the following properties in inventory file:
+
 ```
 openshift_public_hostname=console.aruntechhub.xyz
 openshift_master_default_subdomain=apps.aruntechhub.xyz
