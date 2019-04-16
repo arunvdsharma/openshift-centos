@@ -1,30 +1,25 @@
-# Openshift 3.11 Installation on CentOS
+# MySQL container with NFS volumes deployment on Openshift
 
-This guide explains the steps about how are we going to install Openshift. we are going to install Openshift cluster
-
-# How To Use NFS Persistent Volumes
-
-The purpose of this guide is to create Persistent Volumes with NFS. It is part of [OpenShift persistent storage guide](../README.md), which explains how to use these Persistent Volumes as data storage for applications.
+This guide will help you to deploy MySQL container with NFS volumes on Openshift 3.11. It's assumed that you have NFS installed on one of your node.
 
 ## NFS Provisioning
 
-We'll be creating NFS exports on the local machine.  The instructions below are for Fedora.  The provisioning process may be slightly different based on linux distribution or the type of NFS server being used.
+You can have NFS installed externally on any node or within Openshift cluster. 
+Before creating MySQL cluster, you need to provision NFS Volume. 
+
+We'll be creating NFS exports on the master node where Openshift is installed. The provisioning process may be slightly different based on linux distribution or the type of NFS server being used.
 
 Create two NFS exports, each of which will become a Persistent Volume in the cluster.
 
 ```
-# the directories in this example can grow unbounded
-# use disk partitions of specific sizes to enforce storage quotas
-mkdir -p /home/data/pv0001
-mkdir -p /home/data/pv0002
+# use any disk partitions of specific sizes to enforce storage. Here I will be using /home/data folder
+mkdir -p /home/data/mysqlpv
 
-# security needs to be permissive currently, but the export will soon be restricted 
-# to the same UID/GID that wrote the data
+# Needs to give permission for Docker containers to write their data in these volumes
 chmod -R 777 /home/data/
 
 # Add to /etc/exports
-/home/data/pv0001 *(rw,sync)
-/home/data/pv0002 *(rw,sync)
+/home/data/mysqlpv *(rw,sync)
 
 # Enable the new exports without bouncing the NFS service
 exportfs -a
@@ -36,7 +31,6 @@ exportfs -a
 ### SELinux
 
 By default, SELinux does not allow writing from a pod to a remote NFS server. The NFS volume mounts correctly, but is read-only.
-
 To enable writing in SELinux on each node:
 
 ```
@@ -50,14 +44,17 @@ Each NFS export becomes its own Persistent Volume in the cluster.
 
 ```
 # Create the persistent volumes for NFS.
-$ oc create -f examples/wordpress/nfs/pv-1.yaml
-$ oc create -f examples/wordpress/nfs/pv-2.yaml
+$ oc create -f openshift-centos/mysqlconfig/pv.yaml
 $ oc get pv
 
-NAME      LABELS    CAPACITY     ACCESSMODES   STATUS      CLAIM     REASON
-pv0001    <none>    1073741824   RWO,RWX       Available             
-pv0002    <none>    5368709120   RWO           Available             
+NAME       LABELS    CAPACITY     ACCESSMODES   STATUS      CLAIM     REASON
+mysqlpv    <none>    2303741824   RWO,RWX       Available             
 
+```
+
+```
+# Deploy MySQL Container claiming the same pvc
+$ oc create -f openshift-centos/mysqlconfig/deployment.yaml
 ```
 
 Now the volumes are ready to be used by applications in the cluster.
