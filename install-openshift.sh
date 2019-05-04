@@ -1,5 +1,7 @@
 #!/bin/bash
 
+mkdir -p /etc/origin/master/
+touch /etc/origin/master/htpasswd
 ## Default variables to use
 [ ! -d openshift-ansible ] && git clone https://github.com/openshift/openshift-ansible.git -b release-3.11 --depth=1
 
