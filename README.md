@@ -92,3 +92,33 @@ $ ./install-openshift.sh
 ```
 
 If all the ansible jobs are successful, you can access Openshift dashboard on **https://console.your_domain_name**
+
+
+### How you can create user for webconsole
+
+Login...
+```
+oc login -u system:admin
+```
+See user....
+```
+oc get users
+```
+Resources not found... Ok, create him!
+```
+oc create user admin
+```
+Add user in new group...
+```
+oc adm groups new okd-admins admin
+```
+Grant cluster rights for group...
+```
+oc adm policy add-cluster-role-to-group cluster-admin okd-admins
+```
+And change password!
+```
+htpasswd /etc/origin/master/htpasswd admin
+```
+
+Welcome!
